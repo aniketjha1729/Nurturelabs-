@@ -7,6 +7,10 @@ var bcrypt = require("bcryptjs");
 const Admin = require("../models/admin");
 const passport = require("passport");
 
+router.get("/test", (req, res) => {
+  res.status(200).json({ message: "Deploy Success" });
+});
+
 router.post(
   "/user/:userid/advisor/:advisorid",
   passport.authenticate("jwt", { session: false }),
