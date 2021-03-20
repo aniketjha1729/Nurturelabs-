@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const mongoURI = require("./config/config").mongoURI;
+const {mongoURI} = require("./config/config");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
@@ -10,13 +10,17 @@ const user = require("./routes/user");
 
 const PORT = process.env.PORT || 4444;
 
-mongoose.connect(
-  mongoURI,
-  { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false },
-  () => {
-    console.log("Db Connected");
-  }
-);
+mongoose.connect(mongoURI,{
+  useNewUrlParser:true,
+  useUnifiedTopology: true,
+  useFindAndModify:false,
+})
+mongoose.connection.on('connected',()=>{
+  console.log("conneted to mongo yeahh")
+})
+mongoose.connection.on('error',(err)=>{
+  console.log("err connecting",err)
+})
 
 require("./config/passport")(passport);
 
